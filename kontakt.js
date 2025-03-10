@@ -1,11 +1,35 @@
-function toggleForms() {
-    var loginForm = document.getElementById("login-form");
-    var registerForm = document.getElementById("register-form");
-    if (loginForm.style.display === "none") {
-        loginForm.style.display = "block";
-        registerForm.style.display = "none";
+
+document.getElementById('formularzKontaktowy').addEventListener('submit', function(event) {
+    event.preventDefault(); 
+
+    const email = document.getElementById('email').value;
+    const haslo = document.getElementById('haslo').value;
+
+    const storedUser = JSON.parse(localStorage.getItem('user'));
+    
+    if (storedUser && storedUser.email === email && storedUser.haslo === haslo) {
+        alert('Zalogowano pomyślnie!');
+        window.location.href = 'panel.html';
     } else {
-        loginForm.style.display = "none";
-        registerForm.style.display = "block";
+        alert('Niepoprawny email lub hasło!');
     }
-}
+});
+
+document.getElementById('formularzRejestracyjny')?.addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const email = document.getElementById('emailRejestracja').value;
+    const haslo = document.getElementById('hasloRejestracja').value;
+
+    if (email && haslo) {
+        const newUser = {
+            email: email,
+            haslo: haslo
+        };
+        localStorage.setItem('user', JSON.stringify(newUser));
+        alert('Rejestracja zakończona sukcesem! Możesz się teraz zalogować.');
+        window.location.href = 'login.html';
+    } else {
+        alert('Wszystkie pola muszą być wypełnione!');
+    }
+});
